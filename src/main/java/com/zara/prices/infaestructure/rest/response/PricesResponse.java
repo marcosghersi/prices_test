@@ -1,4 +1,4 @@
-package com.zara.prices.application.domain;
+package com.zara.prices.infaestructure.rest.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 @Builder
-public class Prices {
+public class PricesResponse {
     private Long productId;
     private Integer brandId;
     private LocalDateTime startDate;
