@@ -16,8 +16,9 @@ public class PricesEntity {
     private Long id;
     @Column
     private Long productId;
-    @Column
-    private Long brandId;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private BrandsEntity brand;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime startDate;
     @Column(columnDefinition = "TIMESTAMP")

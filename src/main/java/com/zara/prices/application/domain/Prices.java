@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Prices {
     private Long id;
     private Long productId;
-    private Long brandId;
+    private Brands brand;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Integer priority;
