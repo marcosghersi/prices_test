@@ -1,21 +1,23 @@
 package com.zara.prices.infaestructure.datasource.entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Builder
+@Data
 @Entity
 @Table(name = "PRICES")
 public class PricesEntity {
+    private static final String ID_SEQUENCE = "ID_SEQUENCE";
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = ID_SEQUENCE)
+    private Long id;
+    @Column
     private Long productId;
     @Column
-    private Integer brandId;
+    private Long brandId;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime startDate;
     @Column(columnDefinition = "TIMESTAMP")
@@ -23,7 +25,7 @@ public class PricesEntity {
     @Column
     private Integer priority;
     @Column
-    private Double price;
+    private BigDecimal price;
     @Column
     private String curr;
     @Column

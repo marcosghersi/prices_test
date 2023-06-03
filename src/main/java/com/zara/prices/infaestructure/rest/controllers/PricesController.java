@@ -1,6 +1,6 @@
 package com.zara.prices.infaestructure.rest.controllers;
 
-import com.zara.prices.application.usecase.GetPriceByProductDatesBrandUC;
+import com.zara.prices.application.usecases.GetPriceByProductDateBrandUC;
 import com.zara.prices.infaestructure.rest.mappers.PriceMapper;
 import com.zara.prices.infaestructure.rest.response.PricesResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
 @Slf4j
 public class PricesController {
 
-    private final GetPriceByProductDatesBrandUC getPriceByProductDatesBrandUC;
+    private final GetPriceByProductDateBrandUC getPriceByProductDatesBrandUC;
 
    @GetMapping
-   public ResponseEntity<PricesResponse> getPriceByProductDatesBrand(@RequestParam Integer productId, @RequestParam Long brandId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+   public ResponseEntity<PricesResponse> getPriceByProductDatesBrand(@RequestParam Integer productId, @RequestParam Long brandId, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd-HH.mm.ss")
    LocalDateTime date) {
        log.info("getPriceByProductDatesBrand productId: {}, brandId: {}, date: {}", productId, brandId, date);
        return ResponseEntity.ok(PriceMapper.INSTANCE.toRE(getPriceByProductDatesBrandUC.execute(productId, brandId, date)));
