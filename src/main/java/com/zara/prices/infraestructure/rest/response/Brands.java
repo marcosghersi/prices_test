@@ -1,4 +1,4 @@
-package com.zara.prices.infaestructure.rest.response;
+package com.zara.prices.infraestructure.rest.response;
 
 import lombok.Builder;
 import lombok.Getter;

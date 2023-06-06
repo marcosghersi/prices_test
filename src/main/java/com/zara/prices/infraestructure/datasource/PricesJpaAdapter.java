@@ -1,8 +1,8 @@
-package com.zara.prices.infaestructure.datasource;
+package com.zara.prices.infraestructure.datasource;
 
 import com.zara.prices.application.domain.Prices;
 import com.zara.prices.application.domain.PricesRepository;
-import com.zara.prices.infaestructure.datasource.mappers.PricesDSMapper;
+import com.zara.prices.infraestructure.datasource.mappers.PricesDSMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

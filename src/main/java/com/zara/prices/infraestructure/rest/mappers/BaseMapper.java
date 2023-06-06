@@ -1,4 +1,4 @@
-package com.zara.prices.infaestructure.rest.mappers;
+package com.zara.prices.infraestructure.rest.mappers;
 
 import java.util.List;
 

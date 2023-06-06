@@ -1,6 +1,6 @@
-package com.zara.prices.infaestructure.datasource;
+package com.zara.prices.infraestructure.datasource;
 
-import com.zara.prices.infaestructure.datasource.entities.PricesEntity;
+import com.zara.prices.infraestructure.datasource.entities.PricesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

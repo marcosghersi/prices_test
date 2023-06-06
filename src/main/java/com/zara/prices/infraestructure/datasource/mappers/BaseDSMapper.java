@@ -1,4 +1,4 @@
-package com.zara.prices.infaestructure.datasource.mappers;
+package com.zara.prices.infraestructure.datasource.mappers;
 
 import java.util.List;
 import java.util.Optional;

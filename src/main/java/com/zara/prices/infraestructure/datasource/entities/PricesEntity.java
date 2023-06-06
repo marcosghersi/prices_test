@@ -1,4 +1,4 @@
-package com.zara.prices.infaestructure.datasource.entities;
+package com.zara.prices.infraestructure.datasource.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class PricesEntity {
     private static final String ID_SEQUENCE = "ID_SEQUENCE";
     @Id
-    @GeneratedValue(generator = ID_SEQUENCE)
+    @GeneratedValue(generator = ID_SEQUENCE, strategy= GenerationType.SEQUENCE)
     private Long id;
     @Column
     private Long productId;

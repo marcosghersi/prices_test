@@ -1,4 +1,4 @@
-package com.zara.prices.infaestructure.rest.controllers;
+package com.zara.prices.infraestructure.rest.controllers;
 
 import com.zara.prices.application.domain.shared.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
