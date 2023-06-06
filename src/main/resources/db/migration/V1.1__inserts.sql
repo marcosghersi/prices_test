@@ -9,4 +9,10 @@ INSERT INTO "PRICES" ("ID","PRODUCT_ID","BRAND_ID","PRIORITY","START_DATE","PRIC
 ((NEXT VALUE FOR ID_SEQUENCE),'35455','1','1',parsedatetime('2020-06-15-00.00.00', 'yyyy-MM-dd-HH.mm.ss'),'30.50','EUR',parsedatetime('2020-06-15-11.00.00', 'yyyy-MM-dd-HH.mm.ss'),'2');
 INSERT INTO "PRICES" ("ID","PRODUCT_ID","BRAND_ID","PRIORITY","START_DATE","PRICE","CURR","END_DATE","PRICE_LIST") VALUES
 ((NEXT VALUE FOR ID_SEQUENCE),'35455','1','1',parsedatetime('2020-06-15-16.00.00', 'yyyy-MM-dd-HH.mm.ss'),'38.95','EUR',parsedatetime('2020-12-31-23.59.59', 'yyyy-MM-dd-HH.mm.ss'),'3');
+
+INSERT INTO "PRICES" ("ID","PRODUCT_ID","BRAND_ID","PRIORITY","START_DATE","PRICE","CURR","END_DATE","PRICE_LIST") VALUES
+((NEXT VALUE FOR ID_SEQUENCE),'35455','1','0',parsedatetime('2022-06-14-00.00.00', 'yyyy-MM-dd-HH.mm.ss'),'35.50','EUR',parsedatetime('2022-12-31-23.59.59', 'yyyy-MM-dd-HH.mm.ss'),'4');
+INSERT INTO "PRICES" ("ID","PRODUCT_ID","BRAND_ID","PRIORITY","START_DATE","PRICE","CURR","END_DATE","PRICE_LIST") VALUES
+((NEXT VALUE FOR ID_SEQUENCE),'35455','1','0',parsedatetime('2022-06-14-09.00.00', 'yyyy-MM-dd-HH.mm.ss'),'25.45','EUR',parsedatetime('2022-12-31-23.59.59', 'yyyy-MM-dd-HH.mm.ss'),'5');
+
 commit;

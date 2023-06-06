@@ -15,7 +15,7 @@ public class PricesJpaAdapter implements PricesRepository {
 
     private final PricesJpaRepository pricesJPARepository;
     @Override
-    public List<Prices> findPriceByProductDatesBrand(Integer productId, Long brandId, LocalDateTime date) {
+    public List<Prices> findPriceByProductDatesBrand(Long productId, Long brandId, LocalDateTime date) {
         return PricesDSMapper.INSTANCE.toModelList(pricesJPARepository.findByEndDateGreaterThanEqualAndStartDateLessThanEqualAndProductIdAndBrandId(date, date, productId, brandId));
     }
 }

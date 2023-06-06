@@ -16,9 +16,9 @@ public class PricesResponse {
     private Long id;
     private Long productId;
     private Brands brand;
-    @JsonFormat(pattern = Constants.JSON_LOCALDATETIME_FORMAT)
+    @JsonFormat(pattern = Constants.JSON_LOCALDATETIME_PATTERN)
     private LocalDateTime startDate;
-    @JsonFormat(pattern = Constants.JSON_LOCALDATETIME_FORMAT)
+    @JsonFormat(pattern = Constants.JSON_LOCALDATETIME_PATTERN)
     private LocalDateTime endDate;
     private Integer priority;
     private BigDecimal price;

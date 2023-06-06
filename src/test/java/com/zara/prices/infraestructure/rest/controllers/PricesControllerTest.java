@@ -1,8 +1,7 @@
 package com.zara.prices.infraestructure.rest.controllers;
 
 import com.jayway.jsonpath.JsonPath;
-import com.zara.prices.application.usecases.GetPriceByProductDateBrandUC;
-import com.zara.prices.infraestructure.rest.utils.Constants;
+import com.zara.prices.utils.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -16,7 +15,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,13 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PricesControllerTest {
 
     @Autowired
-    private GetPriceByProductDateBrandUC getPriceByProductDatesBrandUC;
-
-    @Autowired
     private MockMvc mockMvc;
 
-    private static final String TIME_FORMAT = "HH:mm";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(Constants.JSON_LOCALDATETIME_FORMAT);
+    private static final String TIME_PATTERN = "HH:mm";
 
     @Value("${productID}")
     private String productId;
@@ -50,15 +44,18 @@ public class PricesControllerTest {
     @Value("${dateTest}")
     private String[] dateTest;
 
+    @Value("${dateTestNotRecord}")
+    private String dateTestNotRecord;
+
     @Test
-    void getOnePricePerDate() throws Exception {
+    public void getOnePricePerDate() throws Exception {
         AtomicInteger index = new AtomicInteger(1);
         Arrays.stream(dateTest).map(d -> {
 
-            LocalDateTime ld = this.getLocalDateTime(d);
+            LocalDateTime ld = TimeUtils.getLocalDateTimeRestPattern(d);
             String responseJson = getOnePrice(productId, brandId, d);
             return new String[]{
-                    ld.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+                    TimeUtils.formatLocalDateTime(ld, TIME_PATTERN),
                     String.valueOf(ld.getDayOfMonth()),
                     JsonPath.read(responseJson, "$.productId").toString(),
                     JsonPath.read(responseJson, "$.brand.id").toString(),
@@ -70,9 +67,26 @@ public class PricesControllerTest {
         });
 
     }
+    @Test
+    public void getBadRequestDueToOneParamLeft() throws Exception {
+        this.mockMvc.perform(get("/prices")
+                            .param("productId", this.productId)
+                            .param("brandId", this.brandId))
+                    .andExpect(status().isBadRequest());
 
+    }
 
-    String getOnePrice(String productId, String brandId, String date)  {
+    @Test
+    public void getNotFoundException() throws Exception {
+        this.mockMvc.perform(get("/prices")
+                        .param("productId", this.productId)
+                        .param("brandId", this.brandId)
+                        .param("date", this.dateTestNotRecord))
+                .andExpect(status().isNotFound());
+
+    }
+
+    private String getOnePrice(String productId, String brandId, String date)  {
         final String responseJson;
         try {
             responseJson = this.mockMvc.perform(get("/prices")
@@ -94,16 +108,14 @@ public class PricesControllerTest {
         String startDateValue = JsonPath.read(responseJson, "$.startDate");
         String endDateValue = JsonPath.read(responseJson, "$.endDate");
         log.info("startDateValue: {} - endDateValue: {} ", startDateValue, endDateValue);
-        LocalDateTime startDate = getLocalDateTime(startDateValue);
-        LocalDateTime endDate = getLocalDateTime(endDateValue);
+        LocalDateTime startDate = TimeUtils.getLocalDateTimeRestPattern(startDateValue);
+        LocalDateTime endDate = TimeUtils.getLocalDateTimeRestPattern(endDateValue);
 
-        assert startDate.isBefore(getLocalDateTime(date));
-        assert endDate.isAfter(getLocalDateTime(date));
+        assert startDate.isBefore(TimeUtils.getLocalDateTimeRestPattern(date));
+        assert endDate.isAfter(TimeUtils.getLocalDateTimeRestPattern(date));
         return responseJson;
 
     }
 
-    private LocalDateTime getLocalDateTime(String date) {
-        return LocalDateTime.parse(date, DATE_TIME_FORMATTER);
-    }
+
 }

@@ -24,7 +24,7 @@ public class PricesController {
     private final GetPriceByProductDateBrandUC getPriceByProductDatesBrandUC;
 
    @GetMapping
-   public ResponseEntity<PricesResponse> getPriceByProductDatesBrand(@RequestParam Integer productId, @RequestParam Long brandId, @RequestParam @DateTimeFormat(pattern= Constants.JSON_LOCALDATETIME_FORMAT)
+   public ResponseEntity<PricesResponse> getPriceByProductDatesBrand(@RequestParam Long productId, @RequestParam Long brandId, @RequestParam @DateTimeFormat(pattern= Constants.JSON_LOCALDATETIME_PATTERN)
    LocalDateTime date) {
        log.info("getPriceByProductDatesBrand productId: {}, brandId: {}, date: {}", productId, brandId, date);
        return ResponseEntity.ok(PriceMapper.INSTANCE.toRE(getPriceByProductDatesBrandUC.execute(productId, brandId, date)));
