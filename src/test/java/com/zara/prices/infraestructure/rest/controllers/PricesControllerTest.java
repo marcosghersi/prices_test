@@ -3,9 +3,7 @@ package com.zara.prices.infraestructure.rest.controllers;
 import com.jayway.jsonpath.JsonPath;
 import com.zara.prices.utils.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -28,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 @TestPropertySource(locations="classpath:application-test.properties")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PricesControllerTest {
 
     @Autowired
@@ -47,10 +47,21 @@ public class PricesControllerTest {
     @Value("${dateTestNotRecord}")
     private String dateTestNotRecord;
 
+    private List<String[]> results;
+
+    @AfterAll
+    public void printResults() throws Exception {
+        if(this.results == null) {throw new Exception("No results to print");}
+        AtomicInteger index = new AtomicInteger(1);
+        this.results.forEach(r -> {
+            log.info("Test {}: petición a las {} del día {} del producto {}   para la brand {} ({}) - precio: {}", index.getAndIncrement(), r[0], r[1], r[2], r[3], r[4], r[5]);
+        });
+    }
+
     @Test
     public void getOnePricePerDate() throws Exception {
-        AtomicInteger index = new AtomicInteger(1);
-        Arrays.stream(dateTest).map(d -> {
+
+        this.results = Arrays.stream(dateTest).map(d -> {
 
             LocalDateTime ld = TimeUtils.getLocalDateTimeRestPattern(d);
             String responseJson = getOnePrice(productId, brandId, d);
@@ -59,12 +70,12 @@ public class PricesControllerTest {
                     String.valueOf(ld.getDayOfMonth()),
                     JsonPath.read(responseJson, "$.productId").toString(),
                     JsonPath.read(responseJson, "$.brand.id").toString(),
-                    JsonPath.read(responseJson, "$.brand.name")
+                    JsonPath.read(responseJson, "$.brand.name"),
+                    JsonPath.read(responseJson, "$.price").toString()
             };
 
-        }).forEach(r -> {
-            log.info("Test {}: petición a las {} del día {} del producto {}   para la brand {} ({})", index.getAndIncrement(), r[0], r[1], r[2], r[3], r[4]);
-        });
+        }).toList();
+
 
     }
     @Test
